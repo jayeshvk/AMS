@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/cloudbackup"
+        android:title="Cloud Backup" />
+    <item
+        android:id="@+id/cloudRestore"
+        android:title="Cloud Restore" />
+    <item
+        android:id="@+id/selectiveRestore"
+        android:title="Selective Restore" />
+</menu>

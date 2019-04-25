@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:text="Select Option"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/onlineBackup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Online Backup"
+        android:textSize="20dp" />
+
+
+    <Button
+        android:id="@+id/onlineRestore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onlineRestore"
+        android:padding="5dp"
+        android:text="Online Restore"
+        android:textSize="20dp" />
+
+
+    <Button
+        android:id="@+id/selectiveRestore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Selective Restore"
+        android:textSize="20dp" />
+
+
+</LinearLayout>

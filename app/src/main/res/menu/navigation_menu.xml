@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/manageEmployee"
+        android:icon="@drawable/ic_account_circle"
+        android:title="Employee" />
+    <item
+        android:id="@+id/Report"
+        android:title="Reports" />
+    <item
+        android:id="@+id/DetailedReport"
+        android:title="Detail Report" />
+    <item
+        android:id="@+id/Settings"
+        android:title="Settings" />
+    <item
+        android:id="@+id/Backup"
+        android:title="Backup and Restore" />
+    <item
+        android:id="@+id/Logout"
+        android:title="Logout" />
+
+</menu>

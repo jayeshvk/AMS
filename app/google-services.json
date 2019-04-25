@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "877002652982",
+    "firebase_url": "https://amsapp-bf0e8.firebaseio.com",
+    "project_id": "amsapp-bf0e8",
+    "storage_bucket": "amsapp-bf0e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877002652982:android:9a74fdafbb117114",
+        "android_client_info": {
+          "package_name": "com.appdev.jayesh.ams"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "877002652982-8qogsn0u6o9iel835iuok26ne7dq82te.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.appdev.jayesh.ams",
+            "certificate_hash": "fa185be4cd9cd3d8c9309e0301ce6c26a689a9c5"
+          }
+        },
+        {
+          "client_id": "877002652982-8nasecbtfo3mjuhqtildfr285n9mio8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtIaf_i6aLCeSyPQOnAVP6GCv8wh6TDac"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "877002652982-8nasecbtfo3mjuhqtildfr285n9mio8d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
