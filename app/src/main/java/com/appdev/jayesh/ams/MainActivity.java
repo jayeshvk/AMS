@@ -25,7 +25,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -103,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
     HashMap<ExpandedMenuModel, List<String>> listDataChild;
     private int lastExpandedPosition = -1;
 
+    TextView loggedInEmployeeNames;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
         dbh = DatabaseHelper.getInstance(this);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+
+        loggedInEmployeeNames = findViewById(R.id.logedInEmployee);
 
 
         progressDialog = new ProgressDialog(MainActivity.this);
@@ -124,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         PrepareMenu();
         populateExpandableList();
         setEmployeeData();
+        getEmployeesLogedIn();
     }
 
     private void setupEmployeeSpinner() {
@@ -161,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         if (mToggle.onOptionsItemSelected(item)) {
             System.out.println("toggled");
 
-           //to collapse all the menu item on toggle
+            //to collapse all the menu item on toggle
             int count = mMenuAdapter.getGroupCount();
             for (int i = 0; i < count; i++)
                 expandableList.collapseGroup(i);
@@ -193,11 +197,13 @@ public class MainActivity extends AppCompatActivity {
     public void loginButton(View view) {
         login(System.currentTimeMillis());
         setEmployeeData();
+        getEmployeesLogedIn();
     }
 
     public void logoutButton(View view) {
         logout(System.currentTimeMillis());
         setEmployeeData();
+        getEmployeesLogedIn();
     }
 
 
@@ -328,6 +334,7 @@ public class MainActivity extends AppCompatActivity {
         } else
             Toast.makeText(this, "Enter Login date and time", Toast.LENGTH_SHORT).show();
         setEmployeeData();
+        getEmployeesLogedIn();
     }
 
     public void buttonManualLogout(View view) {
@@ -342,6 +349,7 @@ public class MainActivity extends AppCompatActivity {
         } else
             Toast.makeText(this, "Enter Logout date and time", Toast.LENGTH_SHORT).show();
         setEmployeeData();
+        getEmployeesLogedIn();
     }
 
     public void login(long milisecond) {
@@ -840,7 +848,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Employee not logged in anytime", Toast.LENGTH_SHORT).show();
             } else if (employeeLog.getLoginTime() > 0 && employeeLog.getLogoutTime() == 0) {
                 if (employeeLog.getLoginTime() < milisecond) {
-
                     employeeLog.setEid(employee.getId());
                     employeeLog.setLogoutTime(milisecond);
                     employeeLog.setTimeDiff(milisecond - employeeLog.getLoginTime());
@@ -857,4 +864,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    protected void getEmployeesLogedIn() {
+        String names = "";
+        ArrayList<EmployeeLog> loggedInEmployee = dbh.geEmployeesLogedIn();
+
+        for (EmployeeLog e : loggedInEmployee) {
+            names = names + (dbh.getEmployeeNameById(e.getId()) + "\n");
+        }
+        loggedInEmployeeNames.setText(names);
+    }
+
 }

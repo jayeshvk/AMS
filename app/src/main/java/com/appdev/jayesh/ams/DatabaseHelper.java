@@ -157,6 +157,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return employees;
     }
 
+    String getEmployeeNameById(int id) {
+        String empName = "";
+        String EMPLOYEES_SELECT_QUERY =
+                String.format("SELECT %s FROM %s where %s = %s",
+                        KEY_EMPLOYEE_NAME, TABLE_EMPLOYEE, KEY_EMPLOYEE_ID, id
+                );
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(EMPLOYEES_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    empName = cursor.getString((cursor.getColumnIndex(KEY_EMPLOYEE_NAME)));
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to get Employees from database");
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return empName;
+    }
+
     int updateEmployee(Employee employee) {
         SQLiteDatabase db = this.getWritableDatabase();
         Integer retID = 0;
@@ -291,6 +315,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     EmployeeLog empl = new EmployeeLog();
                     empl.setLoginTime(cursor.getLong(cursor.getColumnIndex(KEY_EMPLOYEELOG_LOGINTIME)));
                     empl.setId(cursor.getInt(cursor.getColumnIndex(KEY_EMPLOYEELOG_ID)));
+                    empl.setLogoutTime(cursor.getLong(cursor.getColumnIndex(KEY_EMPLOYEELOG_LOGOUTTIME)));
+                    empl.setTimeDiff(cursor.getLong(cursor.getColumnIndex(KEY_EMPLOYEELOG_TIMEDIFF)));
+                    empl.setText(cursor.getString(cursor.getColumnIndex(KEY_EMPLOYEELOG_TEXT)));
+                    empl.setLoginDate(cursor.getString(cursor.getColumnIndex(KEY_EMPLOYEELOG_LOGINDATE)));
+                    employeeLogs.add(empl);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to get data from database");
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return employeeLogs;
+    }
+
+    ArrayList<EmployeeLog> geEmployeesLogedIn() {
+        ArrayList<EmployeeLog> employeeLogs = new ArrayList<>();
+        String EMPLOYEELOG_SELECT_QUERY =
+                String.format("SELECT * FROM %s  where %s = 0",
+                        TABLE_EMPLOYEELOG, KEY_EMPLOYEELOG_LOGOUTTIME);
+        System.out.println(EMPLOYEELOG_SELECT_QUERY);
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(EMPLOYEELOG_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    EmployeeLog empl = new EmployeeLog();
+                    empl.setLoginTime(cursor.getLong(cursor.getColumnIndex(KEY_EMPLOYEELOG_LOGINTIME)));
+                    empl.setId(cursor.getInt(cursor.getColumnIndex(KEY_EMPLOYEELOG_EID)));
                     empl.setLogoutTime(cursor.getLong(cursor.getColumnIndex(KEY_EMPLOYEELOG_LOGOUTTIME)));
                     empl.setTimeDiff(cursor.getLong(cursor.getColumnIndex(KEY_EMPLOYEELOG_TIMEDIFF)));
                     empl.setText(cursor.getString(cursor.getColumnIndex(KEY_EMPLOYEELOG_TEXT)));

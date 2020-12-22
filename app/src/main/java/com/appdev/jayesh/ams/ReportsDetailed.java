@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -190,8 +189,6 @@ public class ReportsDetailed extends AppCompatActivity {
 
     public void buttonFind(View view) {
         extractReport();
-
-
     }
 
     private void extractReport() {
@@ -263,6 +260,14 @@ public class ReportsDetailed extends AppCompatActivity {
                                     EditText todate = viewq.findViewById(R.id.ettodate);
                                     todate.setText(date + "-" + month + "-" + year);
                                     toreverse = (year + "-" + month + "-" + date);
+                                    break;
+                                case R.id.etLoginDate:
+                                    EditText etfromdate = viewq.findViewById(R.id.etLoginDate);
+                                    etfromdate.setText(date + "-" + month + "-" + year);
+                                    break;
+                                case R.id.etLogoutDate:
+                                    EditText ettodate = viewq.findViewById(R.id.etLogoutDate);
+                                    ettodate.setText(date + "-" + month + "-" + year);
                                     break;
                             }
                         }
