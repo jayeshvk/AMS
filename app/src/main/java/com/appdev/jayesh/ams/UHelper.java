@@ -2,9 +2,10 @@ package com.appdev.jayesh.ams;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 
 import java.text.DateFormat;
 import java.text.ParseException;
