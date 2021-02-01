@@ -66,7 +66,10 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -117,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
 
         loggedInEmployeeNames = findViewById(R.id.logedInEmployee);
 
-
         progressDialog = new ProgressDialog(MainActivity.this);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Please wait...");
@@ -136,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
         employeeSpinner = findViewById(R.id.employeeSpinner);
         employeeArrayList = new ArrayList<>();
         employeeArrayList = dbh.getAllEmployee();
+        Collections.sort(employeeArrayList, Employee.empNameCompare);
+
         empAdapter = new ArrayAdapter<Employee>(this, android.R.layout.simple_spinner_dropdown_item, employeeArrayList);
         empAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         employeeSpinner.setAdapter(empAdapter);
@@ -229,11 +233,9 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLayout.closeDrawers();
             employeeArrayList.clear();
             empAdapter.clear();
-            for (Employee e : dbh.getAllEmployee()) {
-                empAdapter.add(e);
-            }
+            empAdapter.addAll(dbh.getAllEmployee());
+            Collections.sort(employeeArrayList, Employee.empNameCompare);
             empAdapter.notifyDataSetChanged();
-            System.out.println("hurrayyyy");
         }
 
     }
@@ -383,7 +385,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     public void setEmployeeData() {
         TextView etLastLogin = findViewById(R.id.lastlogin);
@@ -867,6 +868,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     protected void getEmployeesLogedIn() {
         String names = "";
         ArrayList<EmployeeLog> loggedInEmployee = dbh.geEmployeesLogedIn();

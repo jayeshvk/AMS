@@ -1,6 +1,8 @@
 package com.appdev.jayesh.ams;
 
-public class Employee {
+import java.util.Comparator;
+
+public class Employee{
 
     private int id;
     private String employeeName;
@@ -60,9 +62,26 @@ public class Employee {
     public boolean equals(Object obj) {
         if (obj instanceof Employee) {
             Employee c = (Employee) obj;
-            if (c.getEmployeeName().equals(employeeName) && c.getId() == id) return true;
+            return c.getEmployeeName().equals(employeeName) && c.getId() == id;
         }
 
         return false;
     }
+
+    public static Comparator<Employee> empNameCompare = new Comparator<Employee>() {
+
+        public int compare(Employee s1, Employee s2) {
+
+            String employee1 = s1.getEmployeeName().toUpperCase();
+            String employee2 = s2.getEmployeeName().toUpperCase();
+
+
+
+            //ascending order
+            return employee1.compareTo(employee2);
+
+            //descending order
+            //return StudentName2.compareTo(StudentName1);
+        }};
+
 }

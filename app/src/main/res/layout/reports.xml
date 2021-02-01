@@ -62,7 +62,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:onClick="buttonFind"
-            android:text="find" />
+            android:text="find"
+            android:layout_marginRight="10dp"/>
+
+        <ImageButton
+            android:id="@+id/buttonPrint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_baseline_print_24"
+            android:onClick="buttonPrint"/>
+
     </LinearLayout>
 
     <LinearLayout

@@ -2,7 +2,7 @@ package com.appdev.jayesh.ams;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +13,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 public class ReportsDetailed extends AppCompatActivity {
@@ -38,6 +39,10 @@ public class ReportsDetailed extends AppCompatActivity {
     List<ReportsDetailedModel> data;
     ReportDetailRecyclerViewAdapter adapter;
 
+    ArrayList<EmployeeLog> employeeLogs = new ArrayList<>();
+
+    boolean find = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +52,7 @@ public class ReportsDetailed extends AppCompatActivity {
         employeeSpinner = findViewById(R.id.employeeSpinner);
         employeeArrayList = new ArrayList<>();
         employeeArrayList = dbh.getAllEmployee();
+        Collections.sort(employeeArrayList, Employee.empNameCompare);
 
         empAdapter = new ArrayAdapter<Employee>(this, android.R.layout.simple_spinner_dropdown_item, employeeArrayList);
         empAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -187,18 +193,17 @@ public class ReportsDetailed extends AppCompatActivity {
             }
         });
     }
-
     public void buttonFind(View view) {
         extractReport();
+        find = true;
     }
 
     private void extractReport() {
         data.clear();
         Employee e = (Employee) employeeSpinner.getSelectedItem();
-        ArrayList<EmployeeLog> employeeLogs;
+
         if (e != null) {
             employeeLogs = dbh.getDetailedEmployeeLogList(e.getId(), fromreverse + " 00:00:00", toreverse + " 23:59:59");
-
             if (employeeLogs.size() > 0) {
                 for (EmployeeLog el : employeeLogs
                 ) {
@@ -234,6 +239,7 @@ public class ReportsDetailed extends AppCompatActivity {
     }
 
     public void datePicker(final View viewq) {
+        find = false;
         {
             // Get Current Date
             final Calendar c = Calendar.getInstance();
@@ -277,7 +283,7 @@ public class ReportsDetailed extends AppCompatActivity {
         }
     }
 
-    public void timePicker(final View viewq) {
+/*    public void timePicker(final View viewq) {
         // Get Current Time
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
@@ -306,7 +312,7 @@ public class ReportsDetailed extends AppCompatActivity {
                     }
                 }, mHour, mMinute, false);
         timePickerDialog.show();
-    }
+    }*/
 
     public String convertMillis(long mili) {
         long days = 0;
@@ -329,5 +335,29 @@ public class ReportsDetailed extends AppCompatActivity {
         return days + "D " + hours + "H " + minutes + "m";
     }
 
+    public void deleteSelectedTransactions(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Delete Employee Transactions")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // FIRE ZE MISSILES!
+                        if (!find) {
+                            Toast.makeText(getApplicationContext(), "Please click on Find and then delete", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        for (EmployeeLog e : employeeLogs) {
+                            dbh.deleteEmployeeLogbyId(e.getId());
+                            extractReport();
+                        }
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+        // Create the AlertDialog object and return it
+        builder.create().show();
+    }
 }
 

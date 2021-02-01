@@ -9,11 +9,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ManageEmployee extends AppCompatActivity {
@@ -52,10 +54,10 @@ public class ManageEmployee extends AppCompatActivity {
         saveButton = findViewById(R.id.save);
 
         List<Employee> employee = dbh.getAllEmployee();
-        for (Employee emp : employee) {
-            employeeArrayList.add(emp);
-            mAdapter.notifyDataSetChanged();
-        }
+        employeeArrayList.addAll(employee);
+        Collections.sort(employeeArrayList, Employee.empNameCompare);
+        mAdapter.notifyDataSetChanged();
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +66,7 @@ public class ManageEmployee extends AppCompatActivity {
                 employeeName.setText(null);
                 wage.setText(null);
                 employeeArrayList.add(emp);
+                Collections.sort(employeeArrayList, Employee.empNameCompare);
                 mAdapter.notifyDataSetChanged();
             }
         });
@@ -105,10 +108,13 @@ public class ManageEmployee extends AppCompatActivity {
                 .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        System.out.println(dbh.deleteEmployee(tempEmployee.getId()));
-                        employeeArrayList.remove(position);
-                        mAdapter.notifyDataSetChanged();
-
+                        int stat = dbh.deleteEmployee(tempEmployee.getId());
+                        if (stat != 0) {
+                            employeeArrayList.remove(position);
+                            mAdapter.notifyDataSetChanged();
+                            Toast.makeText(getApplicationContext(), "Employee Deleted", Toast.LENGTH_SHORT).show();
+                        } else
+                            Toast.makeText(getApplicationContext(), "Delete the Employee Transactions first", Toast.LENGTH_SHORT).show();
                     }
                 }).show();
     }

@@ -106,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    long addEmployee(Employee employee) {
+    void addEmployee(Employee employee) {
         long returnid = 0;
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
@@ -123,7 +123,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.endTransaction();
             Log.d(TAG, "Record Added");
         }
-        return returnid;
     }
 
     ArrayList<Employee> getAllEmployee() {

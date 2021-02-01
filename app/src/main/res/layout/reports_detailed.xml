@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Reports">
+    tools:context=".ReportsDetailed">
 
     <LinearLayout
         android:id="@+id/topPanel"
@@ -63,6 +63,13 @@
             android:layout_weight="0.25"
             android:onClick="buttonFind"
             android:text="find" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="deleteSelectedTransactions"
+            app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -110,7 +117,7 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dr_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
