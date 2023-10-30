@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Process;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -194,9 +195,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         Log.d("CDA", "onBackPressed Called");
         moveTaskToBack(true);
-        android.os.Process.killProcess(android.os.Process.myPid());
+        Process.killProcess(Process.myPid());
         System.exit(0);
     }
 
